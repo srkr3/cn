@@ -1,52 +1,59 @@
-#include<stdio.h>
-#include<string.h>
-int main()
-{ 
-	char a[30],c[30]="",b[50]="",t[3],t1[3],start,end,x[3],s[3],d[3],y[3];
-	int i,j;
- 	printf("Enter characters to be stuffed : ");
- 	scanf("%s",&a);
- 	printf("\nEnter starting delimiter : ");
- 	scanf(" %c",&start);
- 	printf("\nEnter ending delimiter : ");
- 	scanf(" %c",&end);
- 	x[0]=s[0]=s[1]=start;
- 	x[1]=s[2]='\0';
- 	y[0]=d[0]=d[1]=end;
- 	y[1]=d[2]='\0';
- 	strcat(b,x);
- 	for(i=0;i<strlen(a);i++)
-	{
-		t[0]=a[i];
-		t[1]='\0';
-		
- 		if(t[0]==start)
- 			strcat(b,s);
- 		else if(t[0]==end)
- 			strcat(b,d);
- 		else
-			strcat(b,t); 
-	}
- 	strcat(b,y);
- 	printf("\nAfter stuffing : %s\n\n",b);
- 	
- 	
- 	for (i = 0; i < strlen(b); i++) {
-        t[0] = b[i];
-        t[1] = b[i+1];
-        t[2]='\0';
-        
-        if (strcmp(t, s) == 0) {
-            i++;
-        } else if (strcmp(t, d) == 0) {
-            i++;
-        } else {
-        //	t1[0] = t[0];
-        //	t1[1] = '\0';
-            strcat(c, t);
+#include <stdio.h>
+#include <string.h>
+void charstuff(char *data, char *sd, char *ed)
+{
+    char newdata[100] ="", curr[2];
+    int i;
+    strcat(newdata, sd);
+    for ( i = 0; i < strlen(data); i++)
+    {
+        curr[0] = data[i];
+        curr[1] = '\0';
+        strcat(newdata, curr);
+        if (data[i] == sd[0])
+        {
+            strcat(newdata, sd);
+        }
+        else if (data[i] == ed[0])
+        {
+            strcat(newdata, ed);
         }
     }
-
-    printf("\nAfter destuffing: %s\n\n", c);
+    strcat(newdata, ed);
+    printf("After stuffing: %s", newdata);
 }
-
+void chardestuff(char *data, char *sd, char *ed)
+{
+    char temp[100] ="", curr[2];
+    int i;
+    for ( i = 1; i < strlen(data) - 1; i++)
+    {
+        curr[0] = data[i];
+        curr[1] = '\0';
+        strcat(temp, curr);
+        if (data[i] == sd[0])
+        {
+            i++;
+        }
+        else if (data[i] == ed[0])
+        {
+            i++;
+        }
+    }
+    printf("After destuffing: %s\n", temp);
+}
+void main()
+{
+    char data[100];
+    char sd[2], ed[2];
+    printf("enter data to be stuffed: ");
+    scanf("%s", data);
+    printf("enter starting delimiter: ");
+    scanf("%s", sd);
+    printf("enter ending delimiter: ");
+    scanf("%s", ed);
+    charstuff(data, sd, ed);
+    printf("\nenter data to be destuffed: ");
+    scanf("%s", data);
+    chardestuff(data, sd, ed);
+}
